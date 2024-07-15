@@ -1,4 +1,4 @@
-# ![Car Logo](https://upload.wikimedia.org/wikipedia/commons/6/67/Car_black.png) Vehicle Rent Ontology
+# 🚙(https://upload.wikimedia.org/wikipedia/commons/6/67/Car_black.png) Vehicle Rent Ontology
 
 ## :book: Table of Contents
 1. [About The Project](#about-the-project)
