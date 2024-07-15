@@ -1,0 +1,12 @@
+PREFIX vr: <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#>
+PREFIX gr: <http://purl.org/goodrelations/v1#>
+
+SELECT ?rentalAd ?model (COUNT(?interest) AS ?interestCount)
+WHERE {
+    ?rentalAd gr:includes ?vehicle ;
+    vr:IsInterestOf ?interest .
+    ?interest vr:InterestInRental ?person .
+    ?vehicle vr:model ?model .
+}
+GROUP BY ?rentalAd ?model
+ORDER BY DESC(?interestCount)

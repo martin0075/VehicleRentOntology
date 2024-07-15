@@ -1,0 +1,11 @@
+PREFIX vr: <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#>
+PREFIX gr: <http://purl.org/goodrelations/v1#>
+
+SELECT ?businessEntity (COUNT(?review) AS ?positiveReviewCount)
+WHERE {
+    ?review vr:reviewRating ?rating ;
+    vr:isReviewOf ?businessEntity .
+    FILTER(?rating >= 4)
+}
+GROUP BY ?businessEntity
+ORDER BY DESC(?positiveReviewCount)

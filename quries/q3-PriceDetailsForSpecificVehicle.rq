@@ -1,0 +1,16 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vr: <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#>
+PREFIX gr: <http://purl.org/goodrelations/v1#>
+PREFIX gr1: <http://purl.org/goodrelations/v1>
+
+SELECT ?name ?serviceDescription ?value ?currency
+WHERE {
+    vr:ListeningAudiTT gr:hasPriceSpecification vr:CompoundPriceAudiTT .
+    vr:CompoundPriceAudiTT vr:includesUnitPrice ?unitPrice .
+    ?unitPrice gr1:hasCurrency ?currency ;
+    gr1:hasCurrencyValue ?value .
+    OPTIONAL { ?unitPrice vr:nameUnitOfPrice ?name . }
+    OPTIONAL { ?unitPrice vr:serviceDescription ?serviceDescription . }
+}

@@ -1,0 +1,2148 @@
+@prefix : <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix gr: <http://purl.org/goodrelations/v1> .
+@prefix ns: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix v1: <http://purl.org/goodrelations/v1#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix vso: <http://purl.org/vso/ns#> .
+@prefix wot: <http://xmlns.com/wot/0.1/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix swrla: <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#> .
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@prefix VehicleRent: <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#> .
+@prefix goodrelations: <http://purl.org/goodrelations/> .
+@base <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent/> .
+
+<http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+swrla:isRuleEnabled rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2003/06/sw-vocab-status/ns#term_status
+ns:term_status rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://purl.org/goodrelations/v1#hasPriceSpecification
+v1:hasPriceSpecification rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf owl:topObjectProperty ;
+                         owl:inverseOf VehicleRent:appliesToRentalListening ;
+                         rdfs:domain VehicleRent:RentalListening ;
+                         rdfs:range VehicleRent:CompoundPrice ;
+                         rdfs:label "has price specification (0..*)"@en .
+
+
+###  http://purl.org/goodrelations/v1#includes
+v1:includes rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            owl:inverseOf VehicleRent:isVehicleIncluded ;
+            rdfs:comment """This object property is a shortcut for the original gr:includesObject property for the common case of having exactly one single gr:ProductOrService instance included in an Offering. 
+
+When linking to an instance of gr:SomeItems or gr:Individual, it is equivalent to using a gr:TypeAndQuantityNode with gr:hasUnitOfMeasurement=\"C62\"^^xsd:string and gr:amountOfThisGood=\"1.0\"^^xsd:float for that good.
+
+When linking to a gr:ProductOrServiceModel, it is equivalent to 
+1. defining an blank node for a gr:SomeItems
+2. linking that blank node via gr:hasMakeAndModel to the gr:ProductOrServiceModel, and
+3. linking from the gr:Offering to that blank node using another blank node of type gr:TypeAndQuantityNode with gr:hasUnitOfMeasurement=\"C62\"^^xsd:string and gr:amountOfThisGood=\"1.0\"^^xsd:float for that good."""@en ;
+            rdfs:label "includes (0..1)"@en .
+
+
+###  http://purl.org/goodrelations/v1#offers
+v1:offers rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          owl:inverseOf VehicleRent:isOfferedBy ;
+          rdfs:domain v1:BusinessEntity ;
+          rdfs:comment "This links a gr:BusinessEntity to the offers (gr:Offering) it makes."@en ;
+          rdfs:label "offers (0..*)"@en .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InterestInRental
+VehicleRent:InterestInRental rdf:type owl:ObjectProperty ;
+                             rdfs:subPropertyOf owl:topObjectProperty ;
+                             owl:inverseOf VehicleRent:hasRentalInterest ;
+                             rdfs:domain VehicleRent:RentalInterest ;
+                             rdfs:range foaf:Person ;
+                             rdfs:comment "This links a vr:RentalInterest to a foaf:Person. This property links a person to a specific interest in rental." ;
+                             rdfs:label "interest in rental" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#IsInterestOf
+VehicleRent:IsInterestOf rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf owl:topObjectProperty ;
+                         owl:inverseOf VehicleRent:hasRentalListening ;
+                         rdfs:domain VehicleRent:RentalListening ;
+                         rdfs:range VehicleRent:RentalInterest ;
+                         rdfs:comment "This links a vr:RentalListening to a vr:RentalInterest. This property indicates the interest of a person or organization towards a specific object." ;
+                         rdfs:label "is interest of" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#appliesToRentalListening
+VehicleRent:appliesToRentalListening rdf:type owl:ObjectProperty ;
+                                     rdfs:subPropertyOf owl:topObjectProperty ;
+                                     rdfs:domain VehicleRent:CompoundPrice ;
+                                     rdfs:range VehicleRent:RentalListening ;
+                                     rdfs:comment "This links a vr:CompoundPrice to a vr:RentalListening. This property is the inverse of \"has price specification\"." ;
+                                     rdfs:label "applies to rental listening" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#hasCustomerReview
+VehicleRent:hasCustomerReview rdf:type owl:ObjectProperty ;
+                              rdfs:subPropertyOf owl:topObjectProperty ;
+                              owl:inverseOf VehicleRent:isReviewOf ;
+                              rdfs:domain v1:BusinessEntity ;
+                              rdfs:range VehicleRent:CustomerReview ;
+                              rdfs:comment "This links a gr:BusinessEntity to a gr:CustomerReview." ;
+                              rdfs:label "has Customer Review" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#hasExpense
+VehicleRent:hasExpense rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf owl:topObjectProperty ;
+                       rdfs:domain VehicleRent:RentalListening ;
+                       rdfs:range v1:UnitPriceSpecification ;
+                       rdfs:comment "The HasExpense property links a RentalListening to various UnitPriceSpecifications representing different types of expenses associated with the rental. This property consolidates all the cost components such as RentalPrice, FuelChargePrice, InsurencePolicyPrice, and TaxPrice, facilitating easier access, management, and analysis of rental expenses." ;
+                       rdfs:label "has expense" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#hasLocationOf
+VehicleRent:hasLocationOf rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf owl:topObjectProperty ;
+                          owl:inverseOf VehicleRent:isLocationOf ;
+                          rdfs:domain VehicleRent:RentalListening ;
+                          rdfs:range VehicleRent:RentalLocation ;
+                          rdfs:comment "This links a  vr:RentalListening to a vr:RentalLocation." ;
+                          rdfs:label "has location of" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#hasRentalInterest
+VehicleRent:hasRentalInterest rdf:type owl:ObjectProperty ;
+                              rdfs:subPropertyOf owl:topObjectProperty ;
+                              rdfs:domain foaf:Person ;
+                              rdfs:range VehicleRent:RentalInterest ;
+                              rdfs:comment "This links a foaf:Person to a vr:RentalInterest. This property is the inverse of \"interest in rental\"" ;
+                              rdfs:label "has rental interest" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#hasRentalListening
+VehicleRent:hasRentalListening rdf:type owl:ObjectProperty ;
+                               rdfs:subPropertyOf owl:topObjectProperty ;
+                               rdfs:domain VehicleRent:RentalInterest ;
+                               rdfs:range VehicleRent:RentalListening ;
+                               rdfs:comment "This links a vr:RentalInterest to a vr:RentalListening." ;
+                               rdfs:label "has rental listening" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#includesUnitPrice
+VehicleRent:includesUnitPrice rdf:type owl:ObjectProperty ;
+                              rdfs:subPropertyOf owl:topObjectProperty ;
+                              owl:inverseOf VehicleRent:isUnitPriceOf ;
+                              rdfs:domain VehicleRent:CompoundPrice ;
+                              rdfs:range v1:UnitPriceSpecification ;
+                              rdfs:comment "This links a vr:CompoundPrice to a gr:UnitePriceSpecification. This property specify that a final price of rent (CompoundPrice) is compound of several unit price specification." ;
+                              rdfs:label "includes unit price" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#interestInVehicle
+VehicleRent:interestInVehicle rdf:type owl:ObjectProperty ;
+                              rdfs:subPropertyOf owl:topObjectProperty ;
+                              rdfs:domain foaf:Person ;
+                              rdfs:range vso:Vehicle ;
+                              rdfs:comment "This links a foaf:Person to a vso:Vehicle. This property specify that a person has an interest to specified vehicle." ;
+                              rdfs:label "interest in vehicle" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#isLocationOf
+VehicleRent:isLocationOf rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf owl:topObjectProperty ;
+                         rdfs:domain VehicleRent:RentalLocation ;
+                         rdfs:range VehicleRent:RentalListening ;
+                         rdfs:comment "This links a vr:RentalLocation to a vr:RentalListening. This property specifies the location of an entity relative to another." ;
+                         rdfs:label "is location of" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#isOfferedBy
+VehicleRent:isOfferedBy rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf owl:topObjectProperty ;
+                        rdfs:domain VehicleRent:RentalListening ;
+                        rdfs:range v1:BusinessEntity ;
+                        rdfs:comment "This links a vr:RentalListening to a gr:BusinessEntity. This property is the inverse of \"offers\"." ;
+                        rdfs:label "is offered by" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#isReviewOf
+VehicleRent:isReviewOf rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf owl:topObjectProperty ;
+                       rdfs:domain VehicleRent:CustomerReview ;
+                       rdfs:range v1:BusinessEntity ;
+                       rdfs:comment "This links a vr:CustomerReview to a gr:BusinessEntity. This property is the inverse of \"has customer review\"." ;
+                       rdfs:label "is review of" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#isUnitPriceOf
+VehicleRent:isUnitPriceOf rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf owl:topObjectProperty ;
+                          rdfs:domain v1:UnitPriceSpecification ;
+                          rdfs:range VehicleRent:CompoundPrice ;
+                          rdfs:comment "This links a gr:UnitPriceSpecification to a vr:CompundPrice. This property is the inverse of \"includes unit price\"." ;
+                          rdfs:label "is unit price of" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#isVehicleIncluded
+VehicleRent:isVehicleIncluded rdf:type owl:ObjectProperty ;
+                              rdfs:subPropertyOf owl:topObjectProperty ;
+                              rdfs:domain vso:Vehicle ;
+                              rdfs:range VehicleRent:RentalListening ;
+                              rdfs:comment "This links a vso:Vehicle to a vr:RentalListening. This property is the inverse of \"includes\"." ;
+                              rdfs:label "is vehicle included" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#offeredRentalOf
+VehicleRent:offeredRentalOf rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf owl:topObjectProperty ;
+                            rdfs:domain v1:BusinessEntity ;
+                            rdfs:range vso:Vehicle ;
+                            rdfs:comment "This links a foaf:Person to a vso:Vehicle." ;
+                            rdfs:label "offered rental of" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#reviewsWritten
+VehicleRent:reviewsWritten rdf:type owl:ObjectProperty ;
+                           rdfs:subPropertyOf owl:topObjectProperty ;
+                           owl:inverseOf VehicleRent:writtenBy ;
+                           rdfs:domain foaf:Person ;
+                           rdfs:range VehicleRent:CustomerReview ;
+                           rdfs:comment "This links a foaf:Person to a vr:CustomerReview. This property is the inverse of \"writtenBy\"." ;
+                           rdfs:label "reviews written" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#writtenBy
+VehicleRent:writtenBy rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf owl:topObjectProperty ;
+                      rdfs:domain VehicleRent:CustomerReview ;
+                      rdfs:range foaf:Person ;
+                      rdfs:comment "This links a vr:CustomerReview to a foaf:Person. This property indicates the author of a review." ;
+                      rdfs:label "written by" .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://purl.org/goodrelations/v1hasCurrency
+goodrelations:v1hasCurrency rdf:type owl:DatatypeProperty ;
+                            rdfs:subPropertyOf owl:topDataProperty ;
+                            rdfs:domain v1:UnitPriceSpecification ;
+                            rdfs:range xsd:string ;
+                            rdfs:comment "The currency for the given price or price component, specified as a three-letter ISO 4217 code."@en ;
+                            rdfs:isDefinedBy goodrelations:v1 ;
+                            rdfs:label "has currency"@en .
+
+
+###  http://purl.org/goodrelations/v1hasCurrencyValue
+goodrelations:v1hasCurrencyValue rdf:type owl:DatatypeProperty ;
+                                 rdfs:subPropertyOf owl:topDataProperty ;
+                                 rdfs:domain v1:UnitPriceSpecification ;
+                                 rdfs:range xsd:decimal ;
+                                 rdfs:comment "The amount of money for a given price or price component. The currency is specified using the gr:hasCurrency property."@en ;
+                                 rdfs:isDefinedBy goodrelations:v1 ;
+                                 rdfs:label "has currency value"@en .
+
+
+###  http://purl.org/goodrelations/v1legalName
+goodrelations:v1legalName rdf:type owl:DatatypeProperty ;
+                          rdfs:subPropertyOf owl:topDataProperty ;
+                          rdfs:domain foaf:Organization ;
+                          rdfs:range xsd:string ;
+                          rdfs:comment "The official name of the business or organization, as registered with the relevant public authorities. It is usually specified for legal entities such as a company or a partnership."@en ;
+                          rdfs:isDefinedBy goodrelations:v1 ;
+                          rdfs:label "legal name"@en .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#doors
+VehicleRent:doors rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf owl:topDataProperty ;
+                  rdfs:domain vso:Automobile ;
+                  rdfs:range xsd:integer ;
+                  rdfs:comment "The number of doors of Automobile or Van." ;
+                  rdfs:label "doors" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#fuelType
+VehicleRent:fuelType rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf owl:topDataProperty ;
+                     rdfs:domain vso:Vehicle ;
+                     rdfs:range xsd:string ;
+                     rdfs:comment "The type of fuel used by the vehicle." ;
+                     rdfs:label "fuel type" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#isAvailableFrom
+VehicleRent:isAvailableFrom rdf:type owl:DatatypeProperty ;
+                            rdfs:subPropertyOf owl:topDataProperty ;
+                            rdfs:domain VehicleRent:RentalListening ;
+                            rdfs:range xsd:date ;
+                            rdfs:comment "The start date of the vehicle rental period." ;
+                            rdfs:label "is available from" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#isAvailableTo
+VehicleRent:isAvailableTo rdf:type owl:DatatypeProperty ;
+                          rdfs:subPropertyOf owl:topDataProperty ;
+                          rdfs:domain VehicleRent:RentalListening ;
+                          rdfs:range xsd:date ;
+                          rdfs:comment "The end date of the vehicle rental period." ;
+                          rdfs:label "is available to" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#model
+VehicleRent:model rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf owl:topDataProperty ;
+                  rdfs:domain vso:Vehicle ;
+                  rdfs:range xsd:string ;
+                  rdfs:comment "The model of the vehicle." ;
+                  rdfs:label "model" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#nameUnitOfPrice
+VehicleRent:nameUnitOfPrice rdf:type owl:DatatypeProperty ;
+                            rdfs:subPropertyOf owl:topDataProperty ;
+                            rdfs:domain v1:UnitPriceSpecification ;
+                            rdfs:range xsd:string ;
+                            rdfs:comment "The name of the price unit, such as \"tax\" or \"rental\"." ;
+                            rdfs:label "name unit of price" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#numberOfPassengers
+VehicleRent:numberOfPassengers rdf:type owl:DatatypeProperty ;
+                               rdfs:subPropertyOf owl:topDataProperty ;
+                               rdfs:domain vso:Vehicle ;
+                               rdfs:range xsd:integer ;
+                               rdfs:comment "This property specifies the number of passengers a vehicle can accommodate." ;
+                               rdfs:label "number of passengers" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#reviewRating
+VehicleRent:reviewRating rdf:type owl:DatatypeProperty ;
+                         rdfs:subPropertyOf owl:topDataProperty ;
+                         rdfs:domain VehicleRent:CustomerReview ;
+                         rdfs:range xsd:integer ;
+                         rdfs:comment "This property indicates the rating given in a review, typically represented as an integer value." ;
+                         rdfs:label "review rating" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#serviceDescription
+VehicleRent:serviceDescription rdf:type owl:DatatypeProperty ;
+                               rdfs:subPropertyOf owl:topDataProperty ;
+                               rdfs:domain v1:UnitPriceSpecification ;
+                               rdfs:range xsd:string ;
+                               rdfs:comment "The description of the price unit." ;
+                               rdfs:label "service description" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#transmission
+VehicleRent:transmission rdf:type owl:DatatypeProperty ;
+                         rdfs:subPropertyOf owl:topDataProperty ;
+                         rdfs:domain vso:Vehicle ;
+                         rdfs:range xsd:string ;
+                         rdfs:comment "The type of transmission the vehicle has (e.g., automatic, manual)" ;
+                         rdfs:label "transmission" .
+
+
+###  http://xmlns.com/foaf/0.1/name
+foaf:name rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf owl:topDataProperty ;
+          rdfs:domain foaf:Person ;
+          rdfs:range xsd:string ;
+          rdfs:comment "A name for some thing." ;
+          rdfs:isDefinedBy foaf: ;
+          rdfs:label "name" ;
+          ns:term_status "testing" .
+
+
+###  http://xmlns.com/foaf/0.1/surname
+foaf:surname rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf owl:topDataProperty ;
+             rdfs:domain foaf:Person ;
+             rdfs:range xsd:string ;
+             rdfs:comment "The surname of some person." ;
+             rdfs:isDefinedBy foaf: ;
+             rdfs:label "Surname" ;
+             ns:term_status "archaic" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://purl.org/goodrelations/v1#BusinessEntity
+v1:BusinessEntity rdf:type owl:Class ;
+                  owl:disjointWith v1:Offering ,
+                                   v1:PriceSpecification ;
+                  rdfs:comment """An instance of this class represents the legal agent making (or seeking) a particular offering. This can be a legal body or a person. A business entity has at least a primary mailing address and contact details. For this, typical address standards (vCard) and location data (geo, WGS84) can be attached. Note that the location of the business entity is not necessarily the location from which the product or service is being available (e.g. the branch or store). Use gr:Location for stores and branches.
+		
+Example: Siemens Austria AG, Volkswagen Ltd., Peter Miller's Cell phone Shop LLC
+
+Compatibility with schema.org: This class is equivalent to the union of http://schema.org/Person and http://schema.org/Organization.		
+"""@en ;
+                  rdfs:label "Business entity"@en .
+
+
+###  http://purl.org/goodrelations/v1#Offering
+v1:Offering rdf:type owl:Class ;
+            owl:disjointWith v1:PriceSpecification ,
+                             v1:ProductOrService ;
+            rdfs:comment """An offering represents the public, not necessarily binding, not necessarily exclusive, announcement by a gr:BusinessEntity to provide (or seek) a certain gr:BusinessFunction for a certain gr:ProductOrService to a specified target audience. An offering is specified by the type of product or service or bundle it refers to, what business function is being offered (sales, rental, ...), and a set of commercial properties. It can either refer to 
+(1) a clearly specified instance (gr:Individual),
+(2) to a set of anonymous instances of a given type (gr:SomeItems),
+(3) a product model specification (gr:ProductOrServiceModel), see also section 3.3.3 of the GoodRelations Technical Report. 
+
+An offering may be constrained in terms of the eligible type of business partner, countries, quantities, and other commercial properties. The definition of the commercial properties, the type of product offered, and the business function are explained in other parts of this vocabulary in more detail.
+
+Example: Peter Miller offers to repair TV sets made by Siemens, Volkswagen Innsbruck sells a particular instance of a Volkswagen Golf at $10,000.
+
+Compatibility with schema.org: This class is a superclass to http://schema.org/Offer, since gr:Offering can also represent demand."""@en ;
+            rdfs:label "Offering"@en .
+
+
+###  http://purl.org/goodrelations/v1#PriceSpecification
+v1:PriceSpecification rdf:type owl:Class ;
+                      owl:disjointWith v1:ProductOrService .
+
+
+###  http://purl.org/goodrelations/v1#ProductOrService
+v1:ProductOrService rdf:type owl:Class .
+
+
+###  http://purl.org/goodrelations/v1#UnitPriceSpecification
+v1:UnitPriceSpecification rdf:type owl:Class ;
+                          rdfs:subClassOf v1:PriceSpecification ;
+                          rdfs:label "Unit price specification"@en .
+
+
+###  http://purl.org/vso/ns#Automobile
+vso:Automobile rdf:type owl:Class ;
+               rdfs:subClassOf vso:MotorizedRoadVehicle .
+
+
+###  http://purl.org/vso/ns#Bicycle
+vso:Bicycle rdf:type owl:Class ;
+            rdfs:subClassOf vso:Vehicle .
+
+
+###  http://purl.org/vso/ns#Motorcycle
+vso:Motorcycle rdf:type owl:Class ;
+               rdfs:subClassOf vso:MotorizedRoadVehicle .
+
+
+###  http://purl.org/vso/ns#MotorizedBicycle
+vso:MotorizedBicycle rdf:type owl:Class ;
+                     rdfs:subClassOf vso:MotorizedRoadVehicle .
+
+
+###  http://purl.org/vso/ns#MotorizedRoadVehicle
+vso:MotorizedRoadVehicle rdf:type owl:Class ;
+                         rdfs:subClassOf vso:Vehicle .
+
+
+###  http://purl.org/vso/ns#Van
+vso:Van rdf:type owl:Class ;
+        rdfs:subClassOf vso:MotorizedRoadVehicle .
+
+
+###  http://purl.org/vso/ns#Vehicle
+vso:Vehicle rdf:type owl:Class ;
+            rdfs:subClassOf v1:ProductOrService .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompoundPrice
+VehicleRent:CompoundPrice rdf:type owl:Class ;
+                          rdfs:subClassOf v1:PriceSpecification ;
+                          rdfs:comment "An instance of this class represents the rental price which is composed of several unit price specifications." ;
+                          rdfs:label "Compound Price" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CustomerReview
+VehicleRent:CustomerReview rdf:type owl:Class ;
+                           rdfs:comment "An instance of this class represents a customer's review about a specific organization or private." ;
+                           rdfs:label "Customer Review" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FiveSeaterCar
+VehicleRent:FiveSeaterCar rdf:type owl:Class ;
+                          rdfs:subClassOf vso:Automobile ;
+                          rdfs:comment "An instance of this class represents the car approved for five people including the driver" ;
+                          rdfs:label "Five Seater Car" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FourSeaterCar
+VehicleRent:FourSeaterCar rdf:type owl:Class ;
+                          rdfs:subClassOf vso:Automobile ;
+                          rdfs:comment "An instance of this class represents the car approved for four people including the driver" ;
+                          rdfs:label "Four Seater Car" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FuelChargePrice
+VehicleRent:FuelChargePrice rdf:type owl:Class ;
+                            rdfs:subClassOf v1:UnitPriceSpecification ;
+                            rdfs:comment "An instance of this class represents the fuel price, which is one of the unit price specifications that compound the final rent price." ;
+                            rdfs:label "Fuel Charge Price" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPrice
+VehicleRent:InsurencePolicyPrice rdf:type owl:Class ;
+                                 rdfs:subClassOf v1:UnitPriceSpecification ;
+                                 rdfs:comment "An instance of this class represents the Incurence policy price, which is one of the unit price specifications that compound the final rent price." ;
+                                 rdfs:label "Insurence Policy Price" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LargePassengerVan
+VehicleRent:LargePassengerVan rdf:type owl:Class ;
+                              rdfs:subClassOf vso:Van ;
+                              rdfs:comment "An instance of this class represents the van approved for fifteen people including the driver" ;
+                              rdfs:label "Large Passenger Van" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#MiniVan
+VehicleRent:MiniVan rdf:type owl:Class ;
+                    rdfs:subClassOf vso:Van ;
+                    rdfs:comment "An instance of this class represents the van approved for eight people including the driver" ;
+                    rdfs:label "Mini Van" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalInterest
+VehicleRent:RentalInterest rdf:type owl:Class ;
+                           rdfs:comment "An instance of this class represents the person's interest about a specific rental listening." ;
+                           rdfs:label "Rental Interest" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalListening
+VehicleRent:RentalListening rdf:type owl:Class ;
+                            rdfs:subClassOf v1:Offering ;
+                            rdfs:comment "An instance of this class represents a Rental Listening published by Organization or private for a specific vehicle." ;
+                            rdfs:label "Rental Listening" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalLocation
+VehicleRent:RentalLocation rdf:type owl:Class ;
+                           rdfs:comment "An instance of this class represents the location of vehicle rental." ;
+                           rdfs:label "Rental Location" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPrice
+VehicleRent:RentalPrice rdf:type owl:Class ;
+                        rdfs:subClassOf v1:UnitPriceSpecification ;
+                        rdfs:comment "An instance of this class represents  the rental price of specific vehicle." ;
+                        rdfs:label "Rental Price" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Scooter
+VehicleRent:Scooter rdf:type owl:Class ;
+                    rdfs:subClassOf vso:MotorizedRoadVehicle ;
+                    rdfs:comment "An instance of this class represents a scooter" ;
+                    rdfs:label "Scooter" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#SevenSeaterCar
+VehicleRent:SevenSeaterCar rdf:type owl:Class ;
+                           rdfs:subClassOf vso:Automobile ;
+                           rdfs:comment "An instance of this class represents the car approved for seven people including the driver" ;
+                           rdfs:label "Seven Seater Car" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPrice
+VehicleRent:TaxPrice rdf:type owl:Class ;
+                     rdfs:subClassOf v1:UnitPriceSpecification ;
+                     rdfs:comment "An instance of this class represents the tax price, which is one of the unit price specifications that compound the final rent price." ;
+                     rdfs:label "Tax Price" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TwoSeaterCar
+VehicleRent:TwoSeaterCar rdf:type owl:Class ;
+                         rdfs:subClassOf vso:Automobile ;
+                         rdfs:comment "An instance of this class represents the car approved for only two people including the driver" ;
+                         rdfs:label "Two Seater Car" .
+
+
+###  http://xmlns.com/foaf/0.1/Organization
+foaf:Organization rdf:type owl:Class ;
+                  rdfs:subClassOf v1:BusinessEntity ;
+                  rdfs:comment "An instance of this class represents the organization, making (or seeking) a particular offering." ;
+                  rdfs:isDefinedBy "http://xmlns.com/foaf/0.1" ;
+                  rdfs:label "Organization" .
+
+
+###  http://xmlns.com/foaf/0.1/Person
+foaf:Person rdf:type owl:Class ;
+            rdfs:subClassOf v1:BusinessEntity ;
+            rdfs:comment "An instance of this class represents a private that making (or seeking) a particular offering." ;
+            rdfs:isDefinedBy "http://xmlns.com/foaf/0.1" ;
+            rdfs:label "Person" .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ABCCompany
+VehicleRent:ABCCompany rdf:type owl:NamedIndividual ,
+                                foaf:Organization ;
+                       v1:offers VehicleRent:ListeningKawasaki ,
+                                 VehicleRent:ListeningPorsche911 ,
+                                 VehicleRent:ListeningToyotaSenna ;
+                       VehicleRent:hasCustomerReview VehicleRent:ReviewBob ;
+                       goodrelations:v1legalName "ABC Company" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Alberto
+VehicleRent:Alberto rdf:type owl:NamedIndividual ,
+                             foaf:Person ;
+                    foaf:name "Alberto" ;
+                    foaf:surname "Rossi" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Alex
+VehicleRent:Alex rdf:type owl:NamedIndividual ,
+                          foaf:Person ;
+                 foaf:name "Alex" ;
+                 foaf:surname "Verdi" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Alice
+VehicleRent:Alice rdf:type owl:NamedIndividual ,
+                           foaf:Person ;
+                  foaf:name "Alice" ;
+                  foaf:surname "Neri" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#AudiTT
+VehicleRent:AudiTT rdf:type owl:NamedIndividual ,
+                            vso:Automobile ;
+                   VehicleRent:doors 3 ;
+                   VehicleRent:fuelType "Gasoline" ;
+                   VehicleRent:model "Audi TT" ;
+                   VehicleRent:numberOfPassengers 4 ;
+                   VehicleRent:transmission "Automatic" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#BMWX5
+VehicleRent:BMWX5 rdf:type owl:NamedIndividual ,
+                           vso:Automobile ;
+                  VehicleRent:doors 5 ;
+                  VehicleRent:fuelType "Gasoline" ;
+                  VehicleRent:model "BMW X5" ;
+                  VehicleRent:numberOfPassengers 5 ;
+                  VehicleRent:transmission "Automatic" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#BikeService
+VehicleRent:BikeService rdf:type owl:NamedIndividual ,
+                                 foaf:Organization ;
+                        v1:offers VehicleRent:ListeningCannondaleQuick ,
+                                  VehicleRent:ListeningElops ,
+                                  VehicleRent:ListeningRazorScooter ,
+                                  VehicleRent:ListeningRockrider ,
+                                  VehicleRent:ListeningTrekMarlin ,
+                                  VehicleRent:ListeningXiomiScooter ;
+                        goodrelations:v1legalName "Bike Service" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Bob
+VehicleRent:Bob rdf:type owl:NamedIndividual ,
+                         foaf:Person ;
+                foaf:name "Bob" ;
+                foaf:surname "Scognamiglio" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CannondaleQuick
+VehicleRent:CannondaleQuick rdf:type owl:NamedIndividual ,
+                                     vso:Bicycle ;
+                            VehicleRent:model "Cannondale Quick" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ChevroletSuburban
+VehicleRent:ChevroletSuburban rdf:type owl:NamedIndividual ,
+                                       vso:Automobile ;
+                              VehicleRent:doors 5 ;
+                              VehicleRent:fuelType "Gasoline" ;
+                              VehicleRent:model "Suburban" ;
+                              VehicleRent:numberOfPassengers 7 ;
+                              VehicleRent:transmission "Automatic" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Chiara
+VehicleRent:Chiara rdf:type owl:NamedIndividual ,
+                            foaf:Person ;
+                   v1:offers VehicleRent:ListeningBMW ;
+                   foaf:name "Chiara" ;
+                   foaf:surname "Surace" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompoundPriceAudiTT
+VehicleRent:CompoundPriceAudiTT rdf:type owl:NamedIndividual ,
+                                         VehicleRent:CompoundPrice ;
+                                VehicleRent:includesUnitPrice VehicleRent:FuelChargePriceAudiTT ,
+                                                              VehicleRent:InsurencePolicyPriceAudiTT ,
+                                                              VehicleRent:RentalPriceAudiTT ,
+                                                              VehicleRent:TaxPriceAudiTT .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompoundPriceRockrider
+VehicleRent:CompoundPriceRockrider rdf:type owl:NamedIndividual ,
+                                            VehicleRent:CompoundPrice ;
+                                   VehicleRent:includesUnitPrice VehicleRent:InsurencePolicyPriceRockrider ,
+                                                                 VehicleRent:RentalPriceRockrider ,
+                                                                 VehicleRent:TaxPriceRockrider .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceBMW
+VehicleRent:CompundPriceBMW rdf:type owl:NamedIndividual ,
+                                     VehicleRent:CompoundPrice ;
+                            VehicleRent:includesUnitPrice VehicleRent:FuelChargePriceBMW ,
+                                                          VehicleRent:InsurencePolicyPriceBMW ,
+                                                          VehicleRent:RentalPriceBMW ,
+                                                          VehicleRent:TaxPriceBMW .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceCannondaleQuick
+VehicleRent:CompundPriceCannondaleQuick rdf:type owl:NamedIndividual ,
+                                                 VehicleRent:CompoundPrice ;
+                                        VehicleRent:includesUnitPrice VehicleRent:InsurencePolicyPriceCannondaleQuick ,
+                                                                      VehicleRent:RentalPriceCannondaleQuick ,
+                                                                      VehicleRent:TaxPriceCannondaleQuick .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceChevroletSuburban
+VehicleRent:CompundPriceChevroletSuburban rdf:type owl:NamedIndividual ,
+                                                   VehicleRent:CompoundPrice ;
+                                          VehicleRent:includesUnitPrice VehicleRent:FuelChargePriceChevroletSuburban ,
+                                                                        VehicleRent:InsurencePolicyPriceChevroletSuburban ,
+                                                                        VehicleRent:RentalPriceChevroletSuburban ,
+                                                                        VehicleRent:TaxPriceChevroletSuburban .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceDucatiMonster
+VehicleRent:CompundPriceDucatiMonster rdf:type owl:NamedIndividual ,
+                                               VehicleRent:CompoundPrice ;
+                                      VehicleRent:includesUnitPrice VehicleRent:FuelChargePriceDucatiMonster ,
+                                                                    VehicleRent:InsurencePolicyPriceDucatiMonster ,
+                                                                    VehicleRent:RentalPriceDucatiMonster ,
+                                                                    VehicleRent:TaxPriceDucatiMonster .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceElops
+VehicleRent:CompundPriceElops rdf:type owl:NamedIndividual ,
+                                       VehicleRent:CompoundPrice ;
+                              VehicleRent:includesUnitPrice VehicleRent:InsurencePolicyElops ,
+                                                            VehicleRent:RentalPriceElops ,
+                                                            VehicleRent:TaxPriceElops .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceKawasaki
+VehicleRent:CompundPriceKawasaki rdf:type owl:NamedIndividual ,
+                                          VehicleRent:CompoundPrice ;
+                                 VehicleRent:includesUnitPrice VehicleRent:FuelChargePriceKawasaki ,
+                                                               VehicleRent:InsurencePolicyPriceKawasaki ,
+                                                               VehicleRent:RentalPriceKawasaki ,
+                                                               VehicleRent:TaxPriceKawasaki .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceMercedesSprinter
+VehicleRent:CompundPriceMercedesSprinter rdf:type owl:NamedIndividual ,
+                                                  VehicleRent:CompoundPrice ;
+                                         VehicleRent:includesUnitPrice VehicleRent:FuelChargePriceMercedesSprinter ,
+                                                                       VehicleRent:InsurencePolicyPriceMercedesSprinter ,
+                                                                       VehicleRent:RentalPriceMercedesSprinter ,
+                                                                       VehicleRent:TaxPriceMercedesSprinter .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPricePorsche911
+VehicleRent:CompundPricePorsche911 rdf:type owl:NamedIndividual ,
+                                            VehicleRent:CompoundPrice ;
+                                   VehicleRent:includesUnitPrice VehicleRent:FuelChargePricePorsche911 ,
+                                                                 VehicleRent:InsurencePolicyPricePorsche911 ,
+                                                                 VehicleRent:RentalPricePorsche911 ,
+                                                                 VehicleRent:TaxPricePorsche911 .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceRazorScooter
+VehicleRent:CompundPriceRazorScooter rdf:type owl:NamedIndividual ,
+                                              VehicleRent:CompoundPrice ;
+                                     VehicleRent:includesUnitPrice VehicleRent:InsurencePolicyPriceRazorScooter ,
+                                                                   VehicleRent:RentalPriceRazorScooter ,
+                                                                   VehicleRent:TaxPriceRazorScooter .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceToyotaSenna
+VehicleRent:CompundPriceToyotaSenna rdf:type owl:NamedIndividual ,
+                                             VehicleRent:CompoundPrice ;
+                                    VehicleRent:includesUnitPrice VehicleRent:FuelChargePriceToyotaSenna ,
+                                                                  VehicleRent:InsurencePolicyPriceToyotaSenna ,
+                                                                  VehicleRent:RentalPriceToyotaSenna ,
+                                                                  VehicleRent:TaxPriceToyotaSenna .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceTrekMarlin
+VehicleRent:CompundPriceTrekMarlin rdf:type owl:NamedIndividual ,
+                                            VehicleRent:CompoundPrice ;
+                                   VehicleRent:includesUnitPrice VehicleRent:InsurencePolicyPriceTrekMarlin ,
+                                                                 VehicleRent:RentalPriceTrekMarlin ,
+                                                                 VehicleRent:TaxPriceTrekMarlin .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#CompundPriceXiomiScooter
+VehicleRent:CompundPriceXiomiScooter rdf:type owl:NamedIndividual ,
+                                              VehicleRent:CompoundPrice ;
+                                     VehicleRent:includesUnitPrice VehicleRent:InsurencePolicyPriceXiomiScooter ,
+                                                                   VehicleRent:RentalPriceXiomiScooter ,
+                                                                   VehicleRent:TaxPriceXiomiScooter .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#DucatiMonster
+VehicleRent:DucatiMonster rdf:type owl:NamedIndividual ,
+                                   vso:Motorcycle ;
+                          VehicleRent:fuelType "Gasoline" ;
+                          VehicleRent:model "Monster" ;
+                          VehicleRent:transmission "Manual" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Elops
+VehicleRent:Elops rdf:type owl:NamedIndividual ,
+                           vso:MotorizedBicycle ;
+                  VehicleRent:fuelType "Electric" ;
+                  VehicleRent:model "Elops" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Filippo
+VehicleRent:Filippo rdf:type owl:NamedIndividual ,
+                             foaf:Person ;
+                    foaf:name "Filippo" ;
+                    foaf:surname "Scotti" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FuelChargePriceAudiTT
+VehicleRent:FuelChargePriceAudiTT rdf:type owl:NamedIndividual ,
+                                           VehicleRent:FuelChargePrice ;
+                                  goodrelations:v1hasCurrency "Euro" ;
+                                  goodrelations:v1hasCurrencyValue 70.00 ;
+                                  VehicleRent:nameUnitOfPrice "Fuel Charge" ;
+                                  VehicleRent:serviceDescription "This is the full tank charge for the Audi TT vehicle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FuelChargePriceBMW
+VehicleRent:FuelChargePriceBMW rdf:type owl:NamedIndividual ,
+                                        VehicleRent:FuelChargePrice ;
+                               goodrelations:v1hasCurrency "Euro" ;
+                               goodrelations:v1hasCurrencyValue 75.00 ;
+                               VehicleRent:nameUnitOfPrice "Fuel Charge" ,
+                                                           "This is the full tank charge for the BMW car." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FuelChargePriceChevroletSuburban
+VehicleRent:FuelChargePriceChevroletSuburban rdf:type owl:NamedIndividual ,
+                                                      VehicleRent:FuelChargePrice ;
+                                             goodrelations:v1hasCurrency "Euro" ;
+                                             goodrelations:v1hasCurrencyValue 90.00 ;
+                                             VehicleRent:nameUnitOfPrice "Fuel Charge" ;
+                                             VehicleRent:serviceDescription "The full tank charge for the Chevrolet Suburban SUV." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FuelChargePriceDucatiMonster
+VehicleRent:FuelChargePriceDucatiMonster rdf:type owl:NamedIndividual ,
+                                                  VehicleRent:FuelChargePrice ;
+                                         goodrelations:v1hasCurrency "Euro" ;
+                                         goodrelations:v1hasCurrencyValue 60.00 ;
+                                         VehicleRent:nameUnitOfPrice "Fuel Charge" ;
+                                         VehicleRent:serviceDescription "This is the full tank charge for the Ducati Monster motorcycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FuelChargePriceKawasaki
+VehicleRent:FuelChargePriceKawasaki rdf:type owl:NamedIndividual ,
+                                             VehicleRent:FuelChargePrice ;
+                                    goodrelations:v1hasCurrency "Euro" ;
+                                    goodrelations:v1hasCurrencyValue 55.00 ;
+                                    VehicleRent:nameUnitOfPrice "Fuel Charge" ;
+                                    VehicleRent:serviceDescription "This is the full tank charge for the Kawasaki motorcycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FuelChargePriceMercedesSprinter
+VehicleRent:FuelChargePriceMercedesSprinter rdf:type owl:NamedIndividual ,
+                                                     VehicleRent:FuelChargePrice ;
+                                            goodrelations:v1hasCurrency "Euro" ;
+                                            goodrelations:v1hasCurrencyValue 85.00 ;
+                                            VehicleRent:nameUnitOfPrice "Fuel Charge" ;
+                                            VehicleRent:serviceDescription "The full tank charge for the Mercedes Sprinter van." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FuelChargePricePorsche911
+VehicleRent:FuelChargePricePorsche911 rdf:type owl:NamedIndividual ,
+                                               VehicleRent:FuelChargePrice ;
+                                      goodrelations:v1hasCurrency "Euro" ;
+                                      goodrelations:v1hasCurrencyValue 95.00 ;
+                                      VehicleRent:nameUnitOfPrice "Fuel Charge" ;
+                                      VehicleRent:serviceDescription "This is the full tank charge for the Porsche 911 sports car." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#FuelChargePriceToyotaSenna
+VehicleRent:FuelChargePriceToyotaSenna rdf:type owl:NamedIndividual ,
+                                                VehicleRent:FuelChargePrice ;
+                                       goodrelations:v1hasCurrency "Euro" ;
+                                       goodrelations:v1hasCurrencyValue 65.00 ;
+                                       VehicleRent:nameUnitOfPrice "Fuel Charge" ;
+                                       VehicleRent:serviceDescription "The full tank charge for the Toyota Senna vehicle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyElops
+VehicleRent:InsurencePolicyElops rdf:type owl:NamedIndividual ,
+                                          VehicleRent:InsurencePolicyPrice ;
+                                 goodrelations:v1hasCurrency "Euro" ;
+                                 goodrelations:v1hasCurrencyValue 10.00 ;
+                                 VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                 VehicleRent:serviceDescription "This policy provides daily coverage for the Elops bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceAudiTT
+VehicleRent:InsurencePolicyPriceAudiTT rdf:type owl:NamedIndividual ,
+                                                VehicleRent:InsurencePolicyPrice ;
+                                       goodrelations:v1hasCurrency "Euro" ;
+                                       goodrelations:v1hasCurrencyValue 25.00 ;
+                                       VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                       VehicleRent:serviceDescription "This policy offers daily insurance for the Audi TT vehicle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceBMW
+VehicleRent:InsurencePolicyPriceBMW rdf:type owl:NamedIndividual ,
+                                             VehicleRent:InsurencePolicyPrice ;
+                                    goodrelations:v1hasCurrency "Euro" ;
+                                    goodrelations:v1hasCurrencyValue 30.00 ;
+                                    VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                    VehicleRent:serviceDescription "This policy ensures daily protection for the BMW car." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceCannondaleQuick
+VehicleRent:InsurencePolicyPriceCannondaleQuick rdf:type owl:NamedIndividual ,
+                                                         VehicleRent:InsurencePolicyPrice ;
+                                                goodrelations:v1hasCurrency "Euro" ;
+                                                goodrelations:v1hasCurrencyValue 10.00 ;
+                                                VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                                VehicleRent:serviceDescription "Daily insurance policy for the Cannondale Quick bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceChevroletSuburban
+VehicleRent:InsurencePolicyPriceChevroletSuburban rdf:type owl:NamedIndividual ,
+                                                           VehicleRent:InsurencePolicyPrice ;
+                                                  goodrelations:v1hasCurrency "Euro" ;
+                                                  goodrelations:v1hasCurrencyValue 35.00 ;
+                                                  VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                                  VehicleRent:serviceDescription "Provides daily coverage for the Chevrolet Suburban SUV." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceDucatiMonster
+VehicleRent:InsurencePolicyPriceDucatiMonster rdf:type owl:NamedIndividual ,
+                                                       VehicleRent:InsurencePolicyPrice ;
+                                              goodrelations:v1hasCurrency "Euro" ;
+                                              goodrelations:v1hasCurrencyValue 20.00 ;
+                                              VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                              VehicleRent:serviceDescription "Daily insurance policy for the Ducati Monster motorcycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceKawasaki
+VehicleRent:InsurencePolicyPriceKawasaki rdf:type owl:NamedIndividual ,
+                                                  VehicleRent:InsurencePolicyPrice ;
+                                         goodrelations:v1hasCurrency "Euro" ;
+                                         goodrelations:v1hasCurrencyValue 20.00 ;
+                                         VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                         VehicleRent:serviceDescription "This policy covers the Kawasaki motorcycle on a daily basis." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceMercedesSprinter
+VehicleRent:InsurencePolicyPriceMercedesSprinter rdf:type owl:NamedIndividual ,
+                                                          VehicleRent:InsurencePolicyPrice ;
+                                                 goodrelations:v1hasCurrency "Euro" ;
+                                                 goodrelations:v1hasCurrencyValue 30.00 ;
+                                                 VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                                 VehicleRent:serviceDescription "Daily insurance for the Mercedes Sprinter van." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPricePorsche911
+VehicleRent:InsurencePolicyPricePorsche911 rdf:type owl:NamedIndividual ,
+                                                    VehicleRent:InsurencePolicyPrice ;
+                                           goodrelations:v1hasCurrency "Euro" ;
+                                           goodrelations:v1hasCurrencyValue 35.00 ;
+                                           VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                           VehicleRent:serviceDescription "This policy offers daily insurance for the Porsche 911 sports car." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceRazorScooter
+VehicleRent:InsurencePolicyPriceRazorScooter rdf:type owl:NamedIndividual ,
+                                                      VehicleRent:InsurencePolicyPrice ;
+                                             goodrelations:v1hasCurrency "Euro" ;
+                                             goodrelations:v1hasCurrencyValue 5.00 ;
+                                             VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                             VehicleRent:serviceDescription "Provides daily coverage for the Razor Scooter." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceRockrider
+VehicleRent:InsurencePolicyPriceRockrider rdf:type owl:NamedIndividual ,
+                                                   VehicleRent:InsurencePolicyPrice ;
+                                          goodrelations:v1hasCurrency "Euro" ;
+                                          goodrelations:v1hasCurrencyValue 10.00 ;
+                                          VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                          VehicleRent:serviceDescription "Daily insurance policy for the Rockrider bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceToyotaSenna
+VehicleRent:InsurencePolicyPriceToyotaSenna rdf:type owl:NamedIndividual ,
+                                                     VehicleRent:InsurencePolicyPrice ;
+                                            goodrelations:v1hasCurrency "Euro" ;
+                                            goodrelations:v1hasCurrencyValue 25.00 ;
+                                            VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                            VehicleRent:serviceDescription "Offers daily coverage for the Toyota Senna vehicle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceTrekMarlin
+VehicleRent:InsurencePolicyPriceTrekMarlin rdf:type owl:NamedIndividual ,
+                                                    VehicleRent:InsurencePolicyPrice ;
+                                           goodrelations:v1hasCurrency "Euro" ;
+                                           goodrelations:v1hasCurrencyValue 10.00 ;
+                                           VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                           VehicleRent:serviceDescription "This policy provides daily insurance for the Trek Marlin bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InsurencePolicyPriceXiomiScooter
+VehicleRent:InsurencePolicyPriceXiomiScooter rdf:type owl:NamedIndividual ,
+                                                      VehicleRent:InsurencePolicyPrice ;
+                                             goodrelations:v1hasCurrency "Euro" ;
+                                             goodrelations:v1hasCurrencyValue 5.00 ;
+                                             VehicleRent:nameUnitOfPrice "Insurence Policy" ;
+                                             VehicleRent:serviceDescription "Daily insurance coverage for the Xiaomi Scooter." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InterestListeningAudiTT
+VehicleRent:InterestListeningAudiTT rdf:type owl:NamedIndividual ,
+                                             VehicleRent:RentalInterest ;
+                                    VehicleRent:InterestInRental VehicleRent:Filippo ;
+                                    VehicleRent:hasRentalListening VehicleRent:ListeningAudiTT .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InterestListeningDucatiMonster
+VehicleRent:InterestListeningDucatiMonster rdf:type owl:NamedIndividual ,
+                                                    VehicleRent:RentalInterest ;
+                                           VehicleRent:InterestInRental VehicleRent:Alex ,
+                                                                        VehicleRent:Lorenzo ;
+                                           VehicleRent:hasRentalListening VehicleRent:ListeningDucatiMonster .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InterestListeningKawasaki
+VehicleRent:InterestListeningKawasaki rdf:type owl:NamedIndividual ,
+                                               VehicleRent:RentalInterest ;
+                                      VehicleRent:InterestInRental VehicleRent:Bob ;
+                                      VehicleRent:hasRentalListening VehicleRent:ListeningKawasaki .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InterestListeningMercedesSprinter
+VehicleRent:InterestListeningMercedesSprinter rdf:type owl:NamedIndividual ,
+                                                       VehicleRent:RentalInterest ;
+                                              VehicleRent:InterestInRental VehicleRent:Alberto ;
+                                              VehicleRent:hasRentalListening VehicleRent:ListeningMercedesSprinter .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InterestListeningRockrider
+VehicleRent:InterestListeningRockrider rdf:type owl:NamedIndividual ,
+                                                VehicleRent:RentalInterest ;
+                                       VehicleRent:InterestInRental VehicleRent:Alice ;
+                                       VehicleRent:hasRentalListening VehicleRent:ListeningRockrider .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#InterestListeningTrakMerlin
+VehicleRent:InterestListeningTrakMerlin rdf:type owl:NamedIndividual ,
+                                                 VehicleRent:RentalInterest ;
+                                        VehicleRent:InterestInRental VehicleRent:Marco ;
+                                        VehicleRent:hasRentalListening VehicleRent:ListeningTrekMarlin .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#KawasakiNinja
+VehicleRent:KawasakiNinja rdf:type owl:NamedIndividual ,
+                                   vso:Motorcycle ;
+                          VehicleRent:fuelType "Gasoline" ;
+                          VehicleRent:model "Ninja" ;
+                          VehicleRent:transmission "Manual" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningAudiTT
+VehicleRent:ListeningAudiTT rdf:type owl:NamedIndividual ,
+                                     VehicleRent:RentalListening ;
+                            v1:hasPriceSpecification VehicleRent:CompoundPriceAudiTT ;
+                            v1:includes VehicleRent:AudiTT ;
+                            VehicleRent:hasLocationOf VehicleRent:LocationRentalAudiTT ;
+                            VehicleRent:isAvailableFrom "2024-06-01"^^xsd:date ;
+                            VehicleRent:isAvailableTo "2024-06-20"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningBMW
+VehicleRent:ListeningBMW rdf:type owl:NamedIndividual ,
+                                  VehicleRent:RentalListening ;
+                         v1:hasPriceSpecification VehicleRent:CompundPriceBMW ;
+                         v1:includes VehicleRent:BMWX5 ;
+                         VehicleRent:hasLocationOf VehicleRent:LocationRentalBMW ;
+                         VehicleRent:isAvailableFrom "2024-06-01"^^xsd:date ;
+                         VehicleRent:isAvailableTo "2024-06-20"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningCannondaleQuick
+VehicleRent:ListeningCannondaleQuick rdf:type owl:NamedIndividual ,
+                                              VehicleRent:RentalListening ;
+                                     v1:hasPriceSpecification VehicleRent:CompundPriceCannondaleQuick ;
+                                     v1:includes VehicleRent:CannondaleQuick ;
+                                     VehicleRent:hasLocationOf VehicleRent:LocationRentalCannondaleQuik ;
+                                     VehicleRent:isAvailableFrom "2024-06-10"^^xsd:date ;
+                                     VehicleRent:isAvailableTo "2024-06-30"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningChevroletSuburban
+VehicleRent:ListeningChevroletSuburban rdf:type owl:NamedIndividual ,
+                                                VehicleRent:RentalListening ;
+                                       v1:hasPriceSpecification VehicleRent:CompundPriceChevroletSuburban ;
+                                       v1:includes VehicleRent:ChevroletSuburban ;
+                                       VehicleRent:hasLocationOf VehicleRent:LocationRentalChevroletSuburban ;
+                                       VehicleRent:isAvailableFrom "2024-06-01"^^xsd:date ;
+                                       VehicleRent:isAvailableTo "2024-06-10"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningDucatiMonster
+VehicleRent:ListeningDucatiMonster rdf:type owl:NamedIndividual ,
+                                            VehicleRent:RentalListening ;
+                                   v1:hasPriceSpecification VehicleRent:CompundPriceDucatiMonster ;
+                                   v1:includes VehicleRent:DucatiMonster ;
+                                   VehicleRent:hasLocationOf VehicleRent:LocationRentalDucatiMonster ;
+                                   VehicleRent:isAvailableFrom "2024-06-02"^^xsd:date ;
+                                   VehicleRent:isAvailableTo "2024-06-10"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningElops
+VehicleRent:ListeningElops rdf:type owl:NamedIndividual ,
+                                    VehicleRent:RentalListening ;
+                           v1:hasPriceSpecification VehicleRent:CompundPriceElops ;
+                           v1:includes VehicleRent:Elops ;
+                           VehicleRent:hasLocationOf VehicleRent:LocationRentalElops ;
+                           VehicleRent:isAvailableFrom "2024-06-12"^^xsd:date ;
+                           VehicleRent:isAvailableTo "2024-06-20"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningKawasaki
+VehicleRent:ListeningKawasaki rdf:type owl:NamedIndividual ,
+                                       VehicleRent:RentalListening ;
+                              v1:hasPriceSpecification VehicleRent:CompundPriceKawasaki ;
+                              v1:includes VehicleRent:KawasakiNinja ;
+                              VehicleRent:hasLocationOf VehicleRent:LocationRentalKawasaki ;
+                              VehicleRent:isAvailableFrom "2024-06-04"^^xsd:date ;
+                              VehicleRent:isAvailableTo "2024-06-10"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningMercedesSprinter
+VehicleRent:ListeningMercedesSprinter rdf:type owl:NamedIndividual ,
+                                               VehicleRent:RentalListening ;
+                                      v1:hasPriceSpecification VehicleRent:CompundPriceMercedesSprinter ;
+                                      v1:includes VehicleRent:MercedesSprinter ;
+                                      VehicleRent:hasLocationOf VehicleRent:LocationRentalMercedesSprinter ;
+                                      VehicleRent:isAvailableFrom "2024-06-10"^^xsd:date ;
+                                      VehicleRent:isAvailableTo "2024-06-30"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningPorsche911
+VehicleRent:ListeningPorsche911 rdf:type owl:NamedIndividual ,
+                                         VehicleRent:RentalListening ;
+                                v1:hasPriceSpecification VehicleRent:CompundPricePorsche911 ;
+                                v1:includes VehicleRent:Porsche911 ;
+                                VehicleRent:hasLocationOf VehicleRent:LocationRentalPorsche911 ;
+                                VehicleRent:isAvailableFrom "2024-06-13"^^xsd:date ;
+                                VehicleRent:isAvailableTo "2024-06-22"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningRazorScooter
+VehicleRent:ListeningRazorScooter rdf:type owl:NamedIndividual ,
+                                           VehicleRent:RentalListening ;
+                                  v1:hasPriceSpecification VehicleRent:CompundPriceRazorScooter ;
+                                  v1:includes VehicleRent:RazorScooter ;
+                                  VehicleRent:hasLocationOf VehicleRent:LocationRentalRazorScooter ;
+                                  VehicleRent:isAvailableFrom "2024-06-06"^^xsd:date ;
+                                  VehicleRent:isAvailableTo "2024-06-15"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningRockrider
+VehicleRent:ListeningRockrider rdf:type owl:NamedIndividual ,
+                                        VehicleRent:RentalListening ;
+                               v1:hasPriceSpecification VehicleRent:CompoundPriceRockrider ;
+                               v1:includes VehicleRent:Rockrider ;
+                               VehicleRent:hasLocationOf VehicleRent:LocationRentalRockrider ;
+                               VehicleRent:isAvailableFrom "2024-06-10"^^xsd:date ;
+                               VehicleRent:isAvailableTo "2024-06-20"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningToyotaSenna
+VehicleRent:ListeningToyotaSenna rdf:type owl:NamedIndividual ,
+                                          VehicleRent:RentalListening ;
+                                 v1:hasPriceSpecification VehicleRent:CompundPriceToyotaSenna ;
+                                 v1:includes VehicleRent:ToyotaSenna ;
+                                 VehicleRent:hasLocationOf VehicleRent:LocationRentalToyotaSenna ;
+                                 VehicleRent:isAvailableFrom "2024-06-02"^^xsd:date ;
+                                 VehicleRent:isAvailableTo "2024-06-15"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningTrekMarlin
+VehicleRent:ListeningTrekMarlin rdf:type owl:NamedIndividual ,
+                                         VehicleRent:RentalListening ;
+                                v1:hasPriceSpecification VehicleRent:CompundPriceTrekMarlin ;
+                                v1:includes VehicleRent:TrekMarlin ;
+                                VehicleRent:hasLocationOf VehicleRent:LocationRentalTrekMerlin ;
+                                VehicleRent:isAvailableFrom "2024-06-14"^^xsd:date ;
+                                VehicleRent:isAvailableTo "2024-06-24"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ListeningXiomiScooter
+VehicleRent:ListeningXiomiScooter rdf:type owl:NamedIndividual ,
+                                           VehicleRent:RentalListening ;
+                                  v1:hasPriceSpecification VehicleRent:CompundPriceXiomiScooter ;
+                                  v1:includes VehicleRent:XiomiScooter ;
+                                  VehicleRent:hasLocationOf VehicleRent:LocationRentalXiomiScooter ;
+                                  VehicleRent:isAvailableFrom "2024-06-14"^^xsd:date ;
+                                  VehicleRent:isAvailableTo "2024-06-24"^^xsd:date .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalAudiTT
+VehicleRent:LocationRentalAudiTT rdf:type owl:NamedIndividual ,
+                                          VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalBMW
+VehicleRent:LocationRentalBMW rdf:type owl:NamedIndividual ,
+                                       VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalCannondaleQuik
+VehicleRent:LocationRentalCannondaleQuik rdf:type owl:NamedIndividual ,
+                                                  VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalChevroletSuburban
+VehicleRent:LocationRentalChevroletSuburban rdf:type owl:NamedIndividual ,
+                                                     VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalDucatiMonster
+VehicleRent:LocationRentalDucatiMonster rdf:type owl:NamedIndividual ,
+                                                 VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalElops
+VehicleRent:LocationRentalElops rdf:type owl:NamedIndividual ,
+                                         VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalKawasaki
+VehicleRent:LocationRentalKawasaki rdf:type owl:NamedIndividual ,
+                                            VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalMercedesSprinter
+VehicleRent:LocationRentalMercedesSprinter rdf:type owl:NamedIndividual ,
+                                                    VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalPorsche911
+VehicleRent:LocationRentalPorsche911 rdf:type owl:NamedIndividual ,
+                                              VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalRazorScooter
+VehicleRent:LocationRentalRazorScooter rdf:type owl:NamedIndividual ,
+                                                VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalRockrider
+VehicleRent:LocationRentalRockrider rdf:type owl:NamedIndividual ,
+                                             VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalToyotaSenna
+VehicleRent:LocationRentalToyotaSenna rdf:type owl:NamedIndividual ,
+                                               VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalTrekMerlin
+VehicleRent:LocationRentalTrekMerlin rdf:type owl:NamedIndividual ,
+                                              VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#LocationRentalXiomiScooter
+VehicleRent:LocationRentalXiomiScooter rdf:type owl:NamedIndividual ,
+                                                VehicleRent:RentalLocation .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Lorenzo
+VehicleRent:Lorenzo rdf:type owl:NamedIndividual ,
+                             foaf:Person ;
+                    foaf:name "Lorenzo" ;
+                    foaf:surname "Mamiani" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Marco
+VehicleRent:Marco rdf:type owl:NamedIndividual ,
+                           foaf:Person ;
+                  foaf:name "Marco" ;
+                  foaf:surname "Ubaldi" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#MercedesSprinter
+VehicleRent:MercedesSprinter rdf:type owl:NamedIndividual ,
+                                      vso:Van ;
+                             VehicleRent:fuelType "Diesel" ;
+                             VehicleRent:model "Mercedes Sprinter" ;
+                             VehicleRent:numberOfPassengers 15 ;
+                             VehicleRent:transmission "Automatic" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Pietro
+VehicleRent:Pietro rdf:type owl:NamedIndividual ,
+                            foaf:Person ;
+                   v1:offers VehicleRent:ListeningAudiTT ;
+                   foaf:name "Pietro" ;
+                   foaf:surname "Gabellini" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Porsche911
+VehicleRent:Porsche911 rdf:type owl:NamedIndividual ,
+                                vso:Automobile ;
+                       VehicleRent:doors 3 ;
+                       VehicleRent:fuelType "Gasoline" ;
+                       VehicleRent:model "911" ;
+                       VehicleRent:numberOfPassengers 2 ;
+                       VehicleRent:transmission "Automatic" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RazorScooter
+VehicleRent:RazorScooter rdf:type owl:NamedIndividual ,
+                                  VehicleRent:Scooter ;
+                         VehicleRent:fuelType "Electric" ;
+                         VehicleRent:model "Razor" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceAudiTT
+VehicleRent:RentalPriceAudiTT rdf:type owl:NamedIndividual ,
+                                       VehicleRent:RentalPrice ;
+                              goodrelations:v1hasCurrency "Euro" ;
+                              goodrelations:v1hasCurrencyValue 100.00 ;
+                              VehicleRent:nameUnitOfPrice "Rental" ;
+                              VehicleRent:serviceDescription "This is the daily rental price for the Audi TT vehicle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceBMW
+VehicleRent:RentalPriceBMW rdf:type owl:NamedIndividual ,
+                                    VehicleRent:RentalPrice ;
+                           goodrelations:v1hasCurrency "Euro" ;
+                           goodrelations:v1hasCurrencyValue 120.00 ;
+                           VehicleRent:nameUnitOfPrice "Rental" ;
+                           VehicleRent:serviceDescription "This is the daily rental price for the BMW car." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceCannondaleQuick
+VehicleRent:RentalPriceCannondaleQuick rdf:type owl:NamedIndividual ,
+                                                VehicleRent:RentalPrice ;
+                                       goodrelations:v1hasCurrency "Euro" ;
+                                       goodrelations:v1hasCurrencyValue 15.00 ;
+                                       VehicleRent:nameUnitOfPrice "Rental" ;
+                                       VehicleRent:serviceDescription "Daily rental price for the Cannondale Quick bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceChevroletSuburban
+VehicleRent:RentalPriceChevroletSuburban rdf:type owl:NamedIndividual ,
+                                                  VehicleRent:RentalPrice ;
+                                         goodrelations:v1hasCurrency "Euro" ;
+                                         goodrelations:v1hasCurrencyValue 150.00 ;
+                                         VehicleRent:nameUnitOfPrice "Rental" ;
+                                         VehicleRent:serviceDescription "The daily rental price for the Chevrolet Suburban SUV." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceDucatiMonster
+VehicleRent:RentalPriceDucatiMonster rdf:type owl:NamedIndividual ,
+                                              VehicleRent:RentalPrice ;
+                                     goodrelations:v1hasCurrency "Euro" ;
+                                     goodrelations:v1hasCurrencyValue 90.00 ;
+                                     VehicleRent:nameUnitOfPrice "Rental" ;
+                                     VehicleRent:serviceDescription "This is the daily rental price for the Ducati Monster motorcycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceElops
+VehicleRent:RentalPriceElops rdf:type owl:NamedIndividual ,
+                                      VehicleRent:RentalPrice ;
+                             goodrelations:v1hasCurrency "Euro" ;
+                             goodrelations:v1hasCurrencyValue 20.00 ;
+                             VehicleRent:nameUnitOfPrice "Rental" ;
+                             VehicleRent:serviceDescription "Daily rental price for the Elops bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceKawasaki
+VehicleRent:RentalPriceKawasaki rdf:type owl:NamedIndividual ,
+                                         VehicleRent:RentalPrice ;
+                                goodrelations:v1hasCurrency "Euro" ;
+                                goodrelations:v1hasCurrencyValue 85.00 ;
+                                VehicleRent:nameUnitOfPrice "Rental" ;
+                                VehicleRent:serviceDescription "This is the daily rental price for the Kawasaki motorcycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceMercedesSprinter
+VehicleRent:RentalPriceMercedesSprinter rdf:type owl:NamedIndividual ,
+                                                 VehicleRent:RentalPrice ;
+                                        goodrelations:v1hasCurrency "Euro" ;
+                                        goodrelations:v1hasCurrencyValue 140.00 ;
+                                        VehicleRent:nameUnitOfPrice "Rental" ;
+                                        VehicleRent:serviceDescription "The daily rental price for the Mercedes Sprinter van." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPricePorsche911
+VehicleRent:RentalPricePorsche911 rdf:type owl:NamedIndividual ,
+                                           VehicleRent:RentalPrice ;
+                                  goodrelations:v1hasCurrency "Euro" ;
+                                  goodrelations:v1hasCurrencyValue 200.00 ;
+                                  VehicleRent:nameUnitOfPrice "Rental" ;
+                                  VehicleRent:serviceDescription "This is the daily rental price for the Porsche 911 sports car." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceRazorScooter
+VehicleRent:RentalPriceRazorScooter rdf:type owl:NamedIndividual ,
+                                             VehicleRent:RentalPrice ;
+                                    goodrelations:v1hasCurrency "Euro" ;
+                                    goodrelations:v1hasCurrencyValue 10.00 ;
+                                    VehicleRent:nameUnitOfPrice "Rental" ;
+                                    VehicleRent:serviceDescription "Daily rental price for the Razor Scooter." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceRockrider
+VehicleRent:RentalPriceRockrider rdf:type owl:NamedIndividual ,
+                                          VehicleRent:RentalPrice ;
+                                 goodrelations:v1hasCurrency "Euro" ;
+                                 goodrelations:v1hasCurrencyValue 18.00 ;
+                                 VehicleRent:nameUnitOfPrice "Rental" ;
+                                 VehicleRent:serviceDescription "This is the daily rental price for the Rockrider bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceToyotaSenna
+VehicleRent:RentalPriceToyotaSenna rdf:type owl:NamedIndividual ,
+                                            VehicleRent:RentalPrice ;
+                                   goodrelations:v1hasCurrency "Euro" ;
+                                   goodrelations:v1hasCurrencyValue 130.00 ;
+                                   VehicleRent:nameUnitOfPrice "Rental" ;
+                                   VehicleRent:serviceDescription "The daily rental price for the Toyota Senna vehicle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceTrekMarlin
+VehicleRent:RentalPriceTrekMarlin rdf:type owl:NamedIndividual ,
+                                           VehicleRent:RentalPrice ;
+                                  goodrelations:v1hasCurrency "Euro" ;
+                                  goodrelations:v1hasCurrencyValue 25.00 ;
+                                  VehicleRent:nameUnitOfPrice "Rental" ;
+                                  VehicleRent:serviceDescription "Daily rental price for the Trek Marlin bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#RentalPriceXiomiScooter
+VehicleRent:RentalPriceXiomiScooter rdf:type owl:NamedIndividual ,
+                                             VehicleRent:RentalPrice ;
+                                    goodrelations:v1hasCurrency "Euro" ;
+                                    goodrelations:v1hasCurrencyValue 12.00 ;
+                                    VehicleRent:nameUnitOfPrice "Rental" ;
+                                    VehicleRent:serviceDescription "This is the daily rental price for the Xiaomi Scooter." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ReviewAlberto
+VehicleRent:ReviewAlberto rdf:type owl:NamedIndividual ,
+                                   VehicleRent:CustomerReview ;
+                          VehicleRent:writtenBy VehicleRent:Alberto ;
+                          VehicleRent:reviewRating 4 .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ReviewAlex
+VehicleRent:ReviewAlex rdf:type owl:NamedIndividual ,
+                                VehicleRent:CustomerReview ;
+                       VehicleRent:writtenBy VehicleRent:Alex ;
+                       VehicleRent:reviewRating 5 .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ReviewAlice
+VehicleRent:ReviewAlice rdf:type owl:NamedIndividual ,
+                                 VehicleRent:CustomerReview ;
+                        VehicleRent:writtenBy VehicleRent:Alice .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ReviewBob
+VehicleRent:ReviewBob rdf:type owl:NamedIndividual ,
+                               VehicleRent:CustomerReview ;
+                      VehicleRent:writtenBy VehicleRent:Bob ;
+                      VehicleRent:reviewRating 5 .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ReviewFilippo
+VehicleRent:ReviewFilippo rdf:type owl:NamedIndividual ,
+                                   VehicleRent:CustomerReview ;
+                          VehicleRent:writtenBy VehicleRent:Filippo .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ReviewLorenzo
+VehicleRent:ReviewLorenzo rdf:type owl:NamedIndividual ,
+                                   VehicleRent:CustomerReview ;
+                          VehicleRent:writtenBy VehicleRent:Lorenzo .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Rockrider
+VehicleRent:Rockrider rdf:type owl:NamedIndividual ,
+                               vso:MotorizedBicycle ;
+                      VehicleRent:fuelType "Electric" ;
+                      VehicleRent:model "Rockrider" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceAudiTT
+VehicleRent:TaxPriceAudiTT rdf:type owl:NamedIndividual ,
+                                    VehicleRent:TaxPrice ;
+                           goodrelations:v1hasCurrency "Euro" ;
+                           goodrelations:v1hasCurrencyValue 8.00 ;
+                           VehicleRent:nameUnitOfPrice "Tax" ;
+                           VehicleRent:serviceDescription "The daily tax price for the Audi TT car." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceBMW
+VehicleRent:TaxPriceBMW rdf:type owl:NamedIndividual ,
+                                 VehicleRent:TaxPrice ;
+                        goodrelations:v1hasCurrency "Euro" ;
+                        goodrelations:v1hasCurrencyValue 5.00 ;
+                        VehicleRent:nameUnitOfPrice "Tax" ;
+                        VehicleRent:serviceDescription "The daily tax price for the BMW X5 car." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceCannondaleQuick
+VehicleRent:TaxPriceCannondaleQuick rdf:type owl:NamedIndividual ,
+                                             VehicleRent:TaxPrice ;
+                                    goodrelations:v1hasCurrency "Euro" ;
+                                    goodrelations:v1hasCurrencyValue 3.00 ;
+                                    VehicleRent:nameUnitOfPrice "Tax" ;
+                                    VehicleRent:serviceDescription "This is the daily tax price for the Cannondale Quick bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceChevroletSuburban
+VehicleRent:TaxPriceChevroletSuburban rdf:type owl:NamedIndividual ,
+                                               VehicleRent:TaxPrice ;
+                                      goodrelations:v1hasCurrency "Euro" ;
+                                      goodrelations:v1hasCurrencyValue 8.00 ;
+                                      VehicleRent:nameUnitOfPrice "Tax" ;
+                                      VehicleRent:serviceDescription "The daily tax price for the Chevrolet Suburban SUV." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceDucatiMonster
+VehicleRent:TaxPriceDucatiMonster rdf:type owl:NamedIndividual ,
+                                           VehicleRent:TaxPrice ;
+                                  goodrelations:v1hasCurrency "Euro" ;
+                                  goodrelations:v1hasCurrencyValue 5.00 ;
+                                  VehicleRent:nameUnitOfPrice "Tax" ;
+                                  VehicleRent:serviceDescription "This is the daily tax price for the Ducati Monster motorcycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceElops
+VehicleRent:TaxPriceElops rdf:type owl:NamedIndividual ,
+                                   VehicleRent:TaxPrice ;
+                          goodrelations:v1hasCurrency "Euro" ;
+                          goodrelations:v1hasCurrencyValue 2.00 ;
+                          VehicleRent:nameUnitOfPrice "Tax" ;
+                          VehicleRent:serviceDescription "Daily tax price for the Elops bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceKawasaki
+VehicleRent:TaxPriceKawasaki rdf:type owl:NamedIndividual ,
+                                      VehicleRent:TaxPrice ;
+                             goodrelations:v1hasCurrency "Euro" ;
+                             goodrelations:v1hasCurrencyValue 5.00 ;
+                             VehicleRent:nameUnitOfPrice "Tax" ;
+                             VehicleRent:serviceDescription "This is the daily tax price for the Kawasaki motorcycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceMercedesSprinter
+VehicleRent:TaxPriceMercedesSprinter rdf:type owl:NamedIndividual ,
+                                              VehicleRent:TaxPrice ;
+                                     goodrelations:v1hasCurrency "Euro" ;
+                                     goodrelations:v1hasCurrencyValue 7.00 ;
+                                     VehicleRent:nameUnitOfPrice "Tax" ;
+                                     VehicleRent:serviceDescription "The daily tax price for the Mercedes Sprinter van." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPricePorsche911
+VehicleRent:TaxPricePorsche911 rdf:type owl:NamedIndividual ,
+                                        VehicleRent:TaxPrice ;
+                               goodrelations:v1hasCurrency "Euro" ;
+                               goodrelations:v1hasCurrencyValue 10.00 ;
+                               VehicleRent:nameUnitOfPrice "Tax" ;
+                               VehicleRent:serviceDescription "This is the daily tax price for the Porsche 911 sports car." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceRazorScooter
+VehicleRent:TaxPriceRazorScooter rdf:type owl:NamedIndividual ,
+                                          VehicleRent:TaxPrice ;
+                                 goodrelations:v1hasCurrency "Euro" ;
+                                 goodrelations:v1hasCurrencyValue 1.00 ;
+                                 VehicleRent:nameUnitOfPrice "Tax" ;
+                                 VehicleRent:serviceDescription "Daily tax price for the Razor Scooter." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceRockrider
+VehicleRent:TaxPriceRockrider rdf:type owl:NamedIndividual ,
+                                       VehicleRent:TaxPrice ;
+                              goodrelations:v1hasCurrency "Euro" ;
+                              goodrelations:v1hasCurrencyValue 2.00 ;
+                              VehicleRent:nameUnitOfPrice "Tax" ;
+                              VehicleRent:serviceDescription "This is the daily tax price for the Rockrider bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceToyotaSenna
+VehicleRent:TaxPriceToyotaSenna rdf:type owl:NamedIndividual ,
+                                         VehicleRent:TaxPrice ;
+                                goodrelations:v1hasCurrency "Euro" ;
+                                goodrelations:v1hasCurrencyValue 6.00 ;
+                                VehicleRent:nameUnitOfPrice "Tax" ;
+                                VehicleRent:serviceDescription "The daily tax price for the Toyota Senna vehicle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceTrekMarlin
+VehicleRent:TaxPriceTrekMarlin rdf:type owl:NamedIndividual ,
+                                        VehicleRent:TaxPrice ;
+                               goodrelations:v1hasCurrency "Euro" ,
+                                                           "Tax" ;
+                               goodrelations:v1hasCurrencyValue 2.00 ;
+                               VehicleRent:serviceDescription "Daily tax price for the Trek Marlin bicycle." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TaxPriceXiomiScooter
+VehicleRent:TaxPriceXiomiScooter rdf:type owl:NamedIndividual ,
+                                          VehicleRent:TaxPrice ;
+                                 goodrelations:v1hasCurrency "Euro" ;
+                                 goodrelations:v1hasCurrencyValue 1.00 ;
+                                 VehicleRent:nameUnitOfPrice "Tax" ;
+                                 VehicleRent:serviceDescription "This is the daily tax price for the Xiaomi Scooter." .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ToyotaCamry
+VehicleRent:ToyotaCamry rdf:type owl:NamedIndividual ,
+                                 vso:Automobile ;
+                        VehicleRent:doors 5 ;
+                        VehicleRent:fuelType "Gasoline" ;
+                        VehicleRent:model "Camry" ;
+                        VehicleRent:numberOfPassengers 5 ;
+                        VehicleRent:transmission "Automatic" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#ToyotaSenna
+VehicleRent:ToyotaSenna rdf:type owl:NamedIndividual ,
+                                 vso:Van ;
+                        VehicleRent:fuelType "Hybrid" ;
+                        VehicleRent:model "Toyota Senna" ;
+                        VehicleRent:numberOfPassengers 8 ;
+                        VehicleRent:transmission "Automatic" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#TrekMarlin
+VehicleRent:TrekMarlin rdf:type owl:NamedIndividual ,
+                                vso:Bicycle ;
+                       VehicleRent:model "Trek Marlin" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#Vehicle_Corporation
+VehicleRent:Vehicle_Corporation rdf:type owl:NamedIndividual ,
+                                         foaf:Organization ;
+                                v1:offers VehicleRent:ListeningChevroletSuburban ,
+                                          VehicleRent:ListeningDucatiMonster ,
+                                          VehicleRent:ListeningMercedesSprinter ;
+                                VehicleRent:hasCustomerReview VehicleRent:ReviewAlberto ,
+                                                              VehicleRent:ReviewAlex ;
+                                goodrelations:v1legalName "Vehicle Corporation" .
+
+
+###  http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#XiomiScooter
+VehicleRent:XiomiScooter rdf:type owl:NamedIndividual ,
+                                  VehicleRent:Scooter ;
+                         VehicleRent:fuelType "Electric" ;
+                         VehicleRent:model "Xiomi" .
+
+
+#################################################################
+#    Rules
+#################################################################
+
+:be rdf:type swrl:Variable .
+
+:rl rdf:type swrl:Variable .
+
+:v rdf:type swrl:Variable .
+
+:cp rdf:type swrl:Variable .
+
+:up rdf:type swrl:Variable .
+
+:nPassengers rdf:type swrl:Variable .
+
+:p rdf:type swrl:Variable .
+
+:ri rdf:type swrl:Variable .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "IsOfferedRental" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate v1:BusinessEntity ;
+                           swrl:argument1 :be
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate v1:offers ;
+                                      swrl:argument1 :be ;
+                                      swrl:argument2 :rl
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:ClassAtom ;
+                                                 swrl:classPredicate VehicleRent:RentalListening ;
+                                                 swrl:argument1 :rl
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                            swrl:propertyPredicate v1:includes ;
+                                                            swrl:argument1 :rl ;
+                                                            swrl:argument2 :v
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:ClassAtom ;
+                                                                       swrl:classPredicate vso:Vehicle ;
+                                                                       swrl:argument1 :v
+                                                                     ] ;
+                                                           rdf:rest rdf:nil
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate VehicleRent:offeredRentalOf ;
+                           swrl:argument1 :be ;
+                           swrl:argument2 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "isInterestInVehicle" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate foaf:Person ;
+                           swrl:argument1 :p
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate VehicleRent:RentalInterest ;
+                                      swrl:argument1 :ri
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:ClassAtom ;
+                                                 swrl:classPredicate VehicleRent:RentalListening ;
+                                                 swrl:argument1 :rl
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:ClassAtom ;
+                                                            swrl:classPredicate vso:Vehicle ;
+                                                            swrl:argument1 :v
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                       swrl:propertyPredicate VehicleRent:hasRentalInterest ;
+                                                                       swrl:argument1 :p ;
+                                                                       swrl:argument2 :ri
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                  swrl:propertyPredicate VehicleRent:hasRentalListening ;
+                                                                                  swrl:argument1 :ri ;
+                                                                                  swrl:argument2 :rl
+                                                                                ] ;
+                                                                      rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                 rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                             swrl:propertyPredicate v1:includes ;
+                                                                                             swrl:argument1 :rl ;
+                                                                                             swrl:argument2 :v
+                                                                                           ] ;
+                                                                                 rdf:rest rdf:nil
+                                                                               ]
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate VehicleRent:interestInVehicle ;
+                           swrl:argument1 :p ;
+                           swrl:argument2 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "isHasExpense" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate VehicleRent:RentalListening ;
+                           swrl:argument1 :rl
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate v1:hasPriceSpecification ;
+                                      swrl:argument1 :rl ;
+                                      swrl:argument2 :cp
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:ClassAtom ;
+                                                 swrl:classPredicate VehicleRent:CompoundPrice ;
+                                                 swrl:argument1 :cp
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                            swrl:propertyPredicate VehicleRent:includesUnitPrice ;
+                                                            swrl:argument1 :cp ;
+                                                            swrl:argument2 :up
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:ClassAtom ;
+                                                                       swrl:classPredicate v1:UnitPriceSpecification ;
+                                                                       swrl:argument1 :up
+                                                                     ] ;
+                                                           rdf:rest rdf:nil
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate VehicleRent:hasExpense ;
+                           swrl:argument1 :rl ;
+                           swrl:argument2 :up
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "isTwoSeaterCar" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate vso:Automobile ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate VehicleRent:numberOfPassengers ;
+                                      swrl:argument1 :v ;
+                                      swrl:argument2 :nPassengers
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:equal ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :nPassengers ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 2 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate VehicleRent:TwoSeaterCar ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "isFourSeaterCar" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate vso:Automobile ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate VehicleRent:numberOfPassengers ;
+                                      swrl:argument1 :v ;
+                                      swrl:argument2 :nPassengers
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:greaterThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :nPassengers ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 2 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:lessThanOrEqual ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first :nPassengers ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first 4 ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate VehicleRent:FourSeaterCar ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "isFiveSeaterCar" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate vso:Automobile ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate VehicleRent:numberOfPassengers ;
+                                      swrl:argument1 :v ;
+                                      swrl:argument2 :nPassengers
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:greaterThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :nPassengers ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 4 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:lessThanOrEqual ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first :nPassengers ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first 5 ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate VehicleRent:FiveSeaterCar ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "isSevenSeaterCar" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate vso:Automobile ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate VehicleRent:numberOfPassengers ;
+                                      swrl:argument1 :v ;
+                                      swrl:argument2 :nPassengers
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:greaterThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :nPassengers ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 5 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:lessThanOrEqual ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first :nPassengers ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first 7 ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate VehicleRent:SevenSeaterCar ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "isMiniVan" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate vso:Van ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate VehicleRent:numberOfPassengers ;
+                                      swrl:argument1 :v ;
+                                      swrl:argument2 :nPassengers
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:equal ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :nPassengers ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 8 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate VehicleRent:MiniVan ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "isLargePassengerVan" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate vso:Van ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate VehicleRent:numberOfPassengers ;
+                                      swrl:argument1 :v ;
+                                      swrl:argument2 :nPassengers
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:greaterThanOrEqual ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :nPassengers ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 9 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:lessThanOrEqual ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first :nPassengers ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first 15 ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate VehicleRent:LargePassengerVan ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi

@@ -1,0 +1,33 @@
+PREFIX vr: <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#>
+PREFIX gr: <http://purl.org/goodrelations/v1#>
+PREFIX gr1: <http://purl.org/goodrelations/v1>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?rentalAd ?model ?daysOfRent ?totalPrice
+WHERE {
+    ?rentalAd gr:includes ?vehicle ;
+    vr:isAvailableFrom ?availableFrom ;
+    vr:isAvailableTo ?availableTo .
+    ?vehicle vr:model ?model .
+    ?rentalAd vr:hasExpense ?rentalPrice .
+    ?rentalPrice a vr:RentalPrice ;
+    gr1:hasCurrencyValue ?rentalAmount .
+    ?rentalAd  vr:hasExpense ?insurancePrice .
+    ?insurancePrice a vr:InsurencePolicyPrice ;
+    gr1:hasCurrencyValue ?insuranceAmount .
+    ?rentalAd  vr:hasExpense ?taxPrice .
+    ?taxPrice a vr:TaxPrice ;
+    gr1:hasCurrencyValue ?taxAmount .
+    OPTIONAL {
+        ?rentalAd  vr:hasExpense ?fuelCharge .
+        ?fuelCharge a vr:FuelChargePrice ;
+        gr1:hasCurrencyValue ?fuelAmount .
+    }
+    BIND(IF(BOUND(?fuelAmount), ?fuelAmount, 0) AS ?fuelAmount0)
+    BIND(SUBSTR(STR(?availableFrom), 8, 2) AS ?dayFrom)
+    BIND(SUBSTR(STR(?availableTo), 8, 2) AS ?dayTo)
+    BIND((xsd:integer(?dayTo) - xsd:integer(?dayFrom)+ 1) AS ?daysOfRent)
+    BIND((((?rentalAmount + ?insuranceAmount + ?taxAmount) * ?daysOfRent) + ?fuelAmount0) AS ?totalPrice)
+}
+GROUP BY ?rentalAd ?model ?daysOfRent ?totalPrice
+ORDER BY DESC(?totalPrice)

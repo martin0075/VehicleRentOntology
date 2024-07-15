@@ -1,0 +1,16 @@
+PREFIX vr: <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#>
+PREFIX schema: <http://schema.org/>
+PREFIX gr: <http://purl.org/goodrelations/v1#>
+
+SELECT ?model ?availableFrom ?availableTo ?fuelType ?transmission ?seats ?doors
+WHERE {
+    ?vehicle vr:model ?model .
+    OPTIONAL {?vehicle vr:fuelType ?fuelType . }
+    OPTIONAL {?vehicle vr:transmission ?transmission .}
+    OPTIONAL {?vehicle vr:numberOfPassengers ?seats . }
+    OPTIONAL {?vehicle vr:doors ?doors . }
+    ?rental gr:includes ?vehicle ;
+    vr:isAvailableFrom ?availableFrom ;
+    vr:isAvailableTo ?availableTo .
+    FILTER (str(?model) = "Audi TT")
+}

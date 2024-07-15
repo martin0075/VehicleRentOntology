@@ -1,0 +1,14 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vr: <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#>
+PREFIX gr: <http://purl.org/goodrelations/v1#>
+
+SELECT ?vehicle ?model ?availableFrom ?availableTo
+WHERE {
+    ?listing gr:includes ?vehicle ;
+    vr:isAvailableFrom ?availableFrom ;
+    vr:isAvailableTo ?availableTo .
+    ?vehicle vr:model ?model .
+    FILTER (str(?availableFrom) <= "2024-06-01" && str(?availableTo) >= "2024-06-20")
+}

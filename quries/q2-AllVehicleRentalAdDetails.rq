@@ -1,0 +1,20 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vr: <http://www.semanticweb.org/marti/ontologies/2024/4/VehicleRent#>
+PREFIX gr: <http://purl.org/goodrelations/v1#>
+PREFIX gr1: <http://purl.org/goodrelations/v1>
+
+SELECT ?rentalAd ?availableFrom ?availableTo ?offeredBy ?vehicle (COUNT(?person) AS ?interestedPeople)
+WHERE {
+    ?rentalAd gr:includes ?vehicle ;
+    vr:isOfferedBy ?offeredBy .
+
+    OPTIONAL { ?rentalAd vr:isAvailableFrom ?availableFrom . }
+    OPTIONAL { ?rentalAd vr:isAvailableTo ?availableTo . }
+    OPTIONAL {
+        ?rentalAd vr:IsInterestOf ?interest .
+        ?interest vr:InterestInRental ?person .
+    }
+}
+GROUP BY ?rentalAd ?availableFrom ?availableTo ?offeredBy ?vehicle
